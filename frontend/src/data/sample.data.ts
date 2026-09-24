@@ -10,6 +10,7 @@ export const sampleSkills: Skill[] = [
     campus: '东校区',
     description: '提供构图、修图和毕业季跟拍。',
     timeSlots: ['周三晚', '周六上午'],
+    wantedSkills: ['吉他'],
     rewards: ['技能交换'],
     portfolio: '12组校园人像作品',
   },

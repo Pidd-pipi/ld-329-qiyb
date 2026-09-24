@@ -7,8 +7,25 @@ export interface Skill {
   campus: string;
   description: string;
   timeSlots: string[];
+  wantedSkills: string[];
   rewards: string[];
   portfolio: string;
+}
+
+export interface PublishSkillPayload {
+  title: string;
+  category: string;
+  level: number;
+  timeSlots: string[];
+  wantedSkills: string[];
+  description: string;
+}
+
+export interface PublishSkillResult {
+  skill: Skill;
+  matches: Match[];
+  waiting: boolean;
+  message: string;
 }
 
 export interface Need {

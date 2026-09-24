@@ -12,6 +12,9 @@ body { margin: 0; background: #f6f7f9; color: #18212f; font-family: Inter, "Ping
 .metric-card strong { font-size: 30px; }
 .workspace-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .panel { padding: 20px; min-width: 0; }
+.panel--full { grid-column: 1 / -1; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+.form-feedback { margin-top: 14px; }
 .panel h2 { margin: 0 0 14px; font-size: 20px; }
 .feature-card { padding: 14px; margin-bottom: 12px; }
 .feature-card__title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -22,5 +25,5 @@ body { margin: 0; background: #f6f7f9; color: #18212f; font-family: Inter, "Ping
 @media (max-width: 900px) {
   .page-shell { padding: 16px; }
   .app-header, .profile-panel { grid-template-columns: 1fr; display: grid; }
-  .metrics-grid, .workspace-grid { grid-template-columns: 1fr; }
+  .metrics-grid, .workspace-grid, .form-grid { grid-template-columns: 1fr; }
 }

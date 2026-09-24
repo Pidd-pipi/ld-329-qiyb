@@ -85,6 +85,7 @@ go run ./cmd/server
 - `GET /api/health`
 - `GET /api/dashboard/overview`
 - `GET /api/skills`
+- `POST /api/skills`（发布技能：技能名称、熟练度、可交换时段、想学技能；自动匹配互补同学）
 - `GET /api/needs`
 - `GET /api/matches`
 - `GET /api/appointments`
