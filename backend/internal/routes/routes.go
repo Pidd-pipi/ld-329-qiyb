@@ -11,6 +11,7 @@ func Register(r *gin.Engine) {
 	api.GET("/health", controller.Health)
 	api.GET("/dashboard/overview", controller.Overview)
 	api.GET("/skills", controller.Skills)
+	api.POST("/skills", controller.PublishSkill)
 	api.GET("/needs", controller.Needs)
 	api.GET("/matches", controller.Matches)
 	api.GET("/appointments", controller.Appointments)

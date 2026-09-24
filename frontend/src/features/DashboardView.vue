@@ -11,16 +11,31 @@
 
     <el-alert v-if="error" :title="error" type="error" show-icon />
 
+    <section class="workspace-grid publish-grid">
+      <div class="panel">
+        <h2>发布我的技能</h2>
+        <SkillPublishForm @published="handlePublished" />
+      </div>
+      <div class="panel">
+        <h2>匹配结果</h2>
+        <PublishResultPanel :result="publishResult" />
+      </div>
+    </section>
+
     <section v-if="overview" class="workspace-grid">
       <div class="panel">
-        <h2>技能发布</h2>
+        <h2>技能墙</h2>
         <FeatureCard v-for="skill in overview.skills" :key="skill.id" :title="skill.title" :description="skill.description">
-          <template #tag><el-tag>{{ skill.category }} {{ skill.level }}%</el-tag></template>
+          <template #tag>
+            <el-tag>{{ skill.category }} {{ skill.level }}%</el-tag>
+            <el-tag :type="skill.status === SKILL_STATUS_MATCHED ? 'success' : 'info'" effect="plain">{{ skill.status }}</el-tag>
+          </template>
           <div class="tag-row">
             <el-tag v-for="slot in skill.timeSlots" :key="slot" effect="plain">{{ slot }}</el-tag>
+            <el-tag v-for="wanted in skill.wantedSkills" :key="wanted" type="warning" effect="plain">想学 {{ wanted }}</el-tag>
             <el-tag v-for="reward in skill.rewards" :key="reward" type="success" effect="plain">{{ reward }}</el-tag>
           </div>
-          <small>{{ skill.owner }} · {{ skill.campus }} · {{ skill.portfolio }}</small>
+          <small>{{ skill.owner }} · {{ skill.campus }}<template v-if="skill.portfolio"> · {{ skill.portfolio }}</template></small>
         </FeatureCard>
       </div>
 
@@ -62,6 +77,9 @@
           <h3>{{ overview.profile.name }}</h3>
           <p>{{ overview.profile.major }} · {{ overview.profile.creditLevel }}</p>
           <el-progress :percentage="overview.profile.creditScore" />
+          <div class="tag-row">
+            <el-tag v-for="skill in overview.profile.skillWall" :key="skill.id" effect="dark">{{ skill.title }}</el-tag>
+          </div>
           <ul>
             <li v-for="item in overview.profile.history" :key="item">{{ item }}</li>
           </ul>
@@ -92,14 +110,18 @@ import AppHeader from '../components/AppHeader.vue';
 import FeatureCard from '../components/FeatureCard.vue';
 import MetricCard from '../components/MetricCard.vue';
 import RadarChart from '../components/RadarChart.vue';
+import { SKILL_STATUS_MATCHED } from '../constants/skill.constants';
 import { fetchOverview } from '../services/storage.service';
-import type { Overview } from '../types/domain';
+import SkillPublishForm from './publish/SkillPublishForm.vue';
+import PublishResultPanel from './publish/PublishResultPanel.vue';
+import type { Overview, PublishSkillResult } from '../types/domain';
 
 const overview = ref<Overview | null>(null);
+const publishResult = ref<PublishSkillResult | null>(null);
 const loading = ref(true);
 const error = ref('');
 
-onMounted(async () => {
+async function loadOverview() {
   try {
     overview.value = await fetchOverview();
   } catch (err) {
@@ -107,5 +129,12 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
+
+async function handlePublished(result: PublishSkillResult) {
+  publishResult.value = result;
+  await loadOverview();
+}
+
+onMounted(loadOverview);
 </script>

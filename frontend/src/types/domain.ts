@@ -7,8 +7,32 @@ export interface Skill {
   campus: string;
   description: string;
   timeSlots: string[];
+  wantedSkills: string[];
   rewards: string[];
   portfolio: string;
+  status: string;
+}
+
+export interface PublishSkillPayload {
+  owner?: string;
+  title: string;
+  category: string;
+  level: number;
+  campus: string;
+  description: string;
+  timeSlots: string[];
+  wantedSkills: string[];
+  rewards: string[];
+  portfolio: string;
+}
+
+export type PublishStatus = 'matched' | 'waiting';
+
+export interface PublishSkillResult {
+  skill: Skill;
+  matches: Match[];
+  status: PublishStatus;
+  message: string;
 }
 
 export interface Need {
